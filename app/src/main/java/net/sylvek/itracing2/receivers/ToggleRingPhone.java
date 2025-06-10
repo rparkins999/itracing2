@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -32,6 +33,7 @@ public class ToggleRingPhone extends BroadcastReceiver {
     {
         // from notification
         if(intent.getAction() == null) {
+            Log.d(TAG,"null action");
             stopRing(context, intent);
             return;
         }
@@ -55,7 +57,7 @@ public class ToggleRingPhone extends BroadcastReceiver {
             stopRing(context, intent);
             return;
         }
-
+        Log.d(TAG,"unrecognised action");
     }
 
     private void startRing(Context context, Intent intent) {
@@ -78,16 +80,24 @@ public class ToggleRingPhone extends BroadcastReceiver {
         final int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
         audioManager.setStreamVolume(AudioManager.STREAM_RING, max, 0);
 
+        currentRingtone.setLooping(true);
         currentRingtone.play();
+//        Intent stop = new Intent(context, ToggleRingPhone.class);
+        Intent stop = new Intent();
+        stop.setComponent(ComponentName.unflattenFromString("net.sylvek.itracing2.receivers.ToggleRingPhone"));
+        stop.setAction("net.sylvek.itracing2.action.STOP_RING_PHONE");
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, stop, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        final Notification notification = new Notification.Builder(context)
+        final Notification notification = new Notification.Builder(context, "channel-itracing2")
+                .setChannelId("channel-itracing2")
                 .setContentText(context.getString(R.string.stop_ring))
                 .setContentTitle(context.getString(R.string.app_name))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setAutoCancel(false)
                 .setOngoing(true)
-                .setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(context, ToggleRingPhone.class), PendingIntent.FLAG_UPDATE_CURRENT))
+                .setContentIntent(pi)
+                .setDeleteIntent(pi)
                 .build();
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
