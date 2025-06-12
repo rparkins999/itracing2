@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -80,26 +81,28 @@ public class ToggleRingPhone extends BroadcastReceiver {
         final int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
         audioManager.setStreamVolume(AudioManager.STREAM_RING, max, 0);
 
-        currentRingtone.setLooping(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            currentRingtone.setLooping(true);
+        }
         currentRingtone.play();
 //        Intent stop = new Intent(context, ToggleRingPhone.class);
         Intent stop = new Intent();
         stop.setComponent(ComponentName.unflattenFromString("net.sylvek.itracing2.receivers.ToggleRingPhone"));
         stop.setAction("net.sylvek.itracing2.action.STOP_RING_PHONE");
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, stop, PendingIntent.FLAG_UPDATE_CURRENT);
-
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        final Notification notification = new Notification.Builder(context, "channel-itracing2")
-                .setChannelId("channel-itracing2")
-                .setContentText(context.getString(R.string.stop_ring))
+        final Notification.Builder nfb = new Notification.Builder(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nfb.setChannelId("channel-itracing2");
+        }
+        nfb.setContentText(context.getString(R.string.stop_ring))
                 .setContentTitle(context.getString(R.string.app_name))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setAutoCancel(false)
                 .setOngoing(true)
                 .setContentIntent(pi)
-                .setDeleteIntent(pi)
-                .build();
-        notificationManager.notify(NOTIFICATION_ID, notification);
+                .setDeleteIntent(pi);
+        notificationManager.notify(NOTIFICATION_ID, nfb.build());
     }
 
     private void stopRing(Context context, Intent intent) {

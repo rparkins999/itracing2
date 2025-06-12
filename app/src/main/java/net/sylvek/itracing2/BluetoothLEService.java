@@ -303,6 +303,7 @@ public class BluetoothLEService extends Service {
     private void registerReceivers() {
         IntentFilter f1 = new IntentFilter();
         f1.addAction("net.sylvek.itracing2.action.CAPTURE_POSITION");
+        f1.addAction("net.sylvek.itracing2.action.GOT_LOCATION");
         f1.addCategory("android.intent.category.DEFAULT");
         registerReceiver(new CapturePosition(), f1);
         Log.d(TAG, "CapturePosition() - registered with: " + f1);
@@ -370,10 +371,12 @@ public class BluetoothLEService extends Service {
     private String getNotificationChannel(NotificationManager notificationManager) {
         String channelId = "channel-itracing2";
         String channelName = getResources().getString(R.string.app_name);
-        NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-        channel.setImportance(NotificationManager.IMPORTANCE_NONE);
-        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        notificationManager.createNotificationChannel(channel);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel =
+                    new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_NONE);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            notificationManager.createNotificationChannel(channel);
+        }
         return channelId;
     }
 
