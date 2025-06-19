@@ -82,6 +82,7 @@
         <item>START_VIBRATE_PHONE</item>
         <item>STOP_VIBRATE_PHONE</item>
         <item>CAPTURE_POSITION</item>
+        <item>toggle AudioManager Play/Pause</item>
         <item>CUSTOM_ACTION</item>
     </string-array>
     <string-array name="button_actions">
@@ -92,6 +93,7 @@
         <item>Vibra indít</item>
         <item>Vibra állj</item>
         <item>Helymeghatározás</item>
+        <item>TOGGLE_PLAY_PAUSE</item>
         <item>url vagy intent meghívása</item>
     </string-array>
     <string name="stop_ring">Csengés állj</string> <!-- notification -->

@@ -73,6 +73,7 @@
         <item>Laat de telefoon trillen</item>
         <item>Stop het trillen van de telefoon</item>
         <item>Sla mijn positie op</item>
+        <item>toggle AudioManager Play/Pause</item>
         <item>Open een URL of start een actie</item>
     </string-array>
     <string-array name="button_actions_values">
@@ -83,6 +84,7 @@
         <item>START_VIBRATE_PHONE</item>
         <item>STOP_VIBRATE_PHONE</item>
         <item>CAPTURE_POSITION</item>
+        <item>TOGGLE_PLAY_PAUSE</item>
         <item>CUSTOM_ACTION</item>
     </string-array>
     <string-array name="empty_array"/>

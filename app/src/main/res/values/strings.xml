@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">iTracing2</string>
     <string name="ble_not_supported">sorry bluetooth LE is not supported on your device</string>
     <string name="action_scan_start">detect</string>
@@ -31,6 +31,8 @@
     <string name="display_last_position">display the last recorded position</string>
     <string name="out_of_range_action">out of range action</string>
     <string name="out_of_range_action_summary">triggered when disconnection occurs</string>
+    <string name="screen_on_action">screen on action</string>
+    <string name="screen_on_action_summary">triggered when phone screen on</string>
     <string name="action_on_power_off">link is lost on power off</string>
     <string name="action_on_power_off_summary">the link is lost if keyring or bluetooth is powering off</string>
     <string name="action_bip_out_of_range">iTag beep</string>

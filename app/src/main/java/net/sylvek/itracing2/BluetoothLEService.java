@@ -24,6 +24,7 @@ import net.sylvek.itracing2.receivers.CapturePosition;
 import net.sylvek.itracing2.receivers.CustomAction;
 import net.sylvek.itracing2.receivers.ImmediateAlert;
 import net.sylvek.itracing2.receivers.LinkBackground;
+import net.sylvek.itracing2.receivers.ScreenOn;
 import net.sylvek.itracing2.receivers.ToggleRingPhone;
 import net.sylvek.itracing2.receivers.ToggleVibratePhone;
 import net.sylvek.itracing2.receivers.TogglePlayPause;
@@ -347,6 +348,11 @@ public class BluetoothLEService extends Service {
         f7.addCategory("android.intent.category.DEFAULT");
         registerReceiver(new TogglePlayPause(), f7);
         Log.d(TAG, "TogglePlayPause() - registered with: " + f7);
+
+        IntentFilter f8 = new IntentFilter();
+        f8.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(new ScreenOn(), f8);
+        Log.d(TAG, "ScreenOn() - registered with: " + f8);
     }
 
     public void setForegroundEnabled(boolean enabled) {

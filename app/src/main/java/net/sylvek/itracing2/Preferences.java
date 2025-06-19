@@ -15,12 +15,13 @@ import android.preference.PreferenceManager;
 public class Preferences {
 
     public enum Source {
-        single_click, double_click, out_of_range, connected
+        single_click, double_click, out_of_range, connected, screen_on
     }
 
     public static final String ACTION_SIMPLE_BUTTON_LIST = "action_single_click_list";
     public static final String ACTION_DOUBLE_BUTTON_LIST = "action_double_click_list";
     public static final String ACTION_OUT_OF_RANGE_LIST = "action_out_of_range_list";
+    public static final String ACTION_SCREEN_ON_LIST = "action_screen_on_list";
     public static final String ACTION_CONNECTED_LIST = "action_connected_list";
     public static final String ACTION_ON_POWER_OFF = "action_on_power_off";
     public static final String RINGTONE = "ring_tone";
@@ -54,6 +55,9 @@ public class Preferences {
     {
         return getSharedPreferences(context, address).getStringSet(ACTION_OUT_OF_RANGE_LIST, Collections.<String>emptySet());
     }
+
+    public static Set<String> getActionScreenOn(Context context, String address) {
+        return getSharedPreferences(context, address).getStringSet(ACTION_SCREEN_ON_LIST, Collections.<String>emptySet());  }
 
     public static Set<String> getActionConnected(Context context, String address)
     {
