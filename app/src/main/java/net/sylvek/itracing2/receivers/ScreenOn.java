@@ -23,7 +23,7 @@ public class ScreenOn extends BroadcastReceiver {
             do {
                 final String address = cursor.getString(0);
                 if (Devices.isEnabled(context, address)) {
-                    for (String action : Preferences.getActionScreenOn(context, address) {
+                    for (String action : Preferences.getActionScreenOn(context, address)) {
                         final Intent bi = new Intent("net.sylvek.itracing2.action." + action);
                         bi.putExtra(Devices.ADDRESS, address);
                         bi.putExtra(Devices.SOURCE, Preferences.Source.screen_on.name());

@@ -8,8 +8,8 @@ android {
         minSdkVersion 22
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 29
-        versionCode 84
-        versionName "2.5.9"
+        versionCode 85
+        versionName "2.5.10"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
