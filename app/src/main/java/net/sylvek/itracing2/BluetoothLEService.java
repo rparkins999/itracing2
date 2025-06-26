@@ -63,7 +63,7 @@ public class BluetoothLEService extends Service {
 
     private BluetoothDevice mDevice;
 
-    private HashMap<String, BluetoothGatt> bluetoothGatt = new HashMap<>();
+    private HashMap<String, BluetoothGatt> bluetoothGattMap = new HashMap<>();
 
     private BluetoothGattService immediateAlertService;
 
@@ -289,8 +289,17 @@ public class BluetoothLEService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        this.registerReceivers();
-        this.setForegroundEnabled(Preferences.isForegroundEnabled(this));
+        if (intent.hasExtra("connect")) {
+            // from LinkBackground
+            if (!intent.getBooleanExtra("connect", true)) {
+                this.disconnect();
+                return START_STICKY;
+            }
+        } else {
+            // from DevicesActivity
+            this.registerReceivers();
+            this.setForegroundEnabled(Preferences.isForegroundEnabled(this));
+        }
         this.connect();
 
         if (intent.getData() != null) {
@@ -413,10 +422,10 @@ public class BluetoothLEService extends Service {
                 final String address = cursor.getString(0);
                 if (Devices.isEnabled(this, address)) {
                     Log.d(TAG, "disconnect() - to device " + address);
-                    if (bluetoothGatt.get(address) != null) {
-                        bluetoothGatt.get(address).disconnect();
+                    if (bluetoothGattMap.get(address) != null) {
+                        bluetoothGattMap.get(address).disconnect();
                     }
-                    bluetoothGatt.remove(address);
+                    bluetoothGattMap.remove(address);
                 }
             } while (cursor.moveToNext());
         }
@@ -424,24 +433,24 @@ public class BluetoothLEService extends Service {
 
     public void setLinkLossNotificationLevel(String address, int alertType) {
         Log.d(TAG, "setLinkLossNotificationLevel() - the device " + address);
-        if (bluetoothGatt.get(address) == null || linkLossService == null || linkLossService.getCharacteristics() == null || linkLossService.getCharacteristics().size() == 0) {
+        if (bluetoothGattMap.get(address) == null || linkLossService == null || linkLossService.getCharacteristics() == null || linkLossService.getCharacteristics().size() == 0) {
             somethingGoesWrong();
             return;
         }
         final BluetoothGattCharacteristic characteristic = linkLossService.getCharacteristics().get(0);
         characteristic.setValue(alertType, BluetoothGattCharacteristic.FORMAT_UINT8, 0);
-        bluetoothGatt.get(address).writeCharacteristic(characteristic);
+        bluetoothGattMap.get(address).writeCharacteristic(characteristic);
     }
 
     public void immediateAlert(String address, int alertType) {
         Log.d(TAG, "immediateAlert() - the device " + address);
-        if (bluetoothGatt.get(address) == null || immediateAlertService == null || immediateAlertService.getCharacteristics() == null || immediateAlertService.getCharacteristics().size() == 0) {
+        if (bluetoothGattMap.get(address) == null || immediateAlertService == null || immediateAlertService.getCharacteristics() == null || immediateAlertService.getCharacteristics().size() == 0) {
             somethingGoesWrong();
             return;
         }
         final BluetoothGattCharacteristic characteristic = immediateAlertService.getCharacteristics().get(0);
         characteristic.setValue(alertType, BluetoothGattCharacteristic.FORMAT_UINT8, 0);
-        bluetoothGatt.get(address).writeCharacteristic(characteristic);
+        bluetoothGattMap.get(address).writeCharacteristic(characteristic);
         Events.insert(getApplicationContext(), "immediate_alert", address, "" + alertType);
     }
 
@@ -463,36 +472,36 @@ public class BluetoothLEService extends Service {
     }
 
     public synchronized void connect(final String address) {
-        if (!bluetoothGatt.containsKey(address) || bluetoothGatt.get(address) == null) {
+        if (!bluetoothGattMap.containsKey(address) || bluetoothGattMap.get(address) == null) {
             Log.d(TAG, "connect() - (new link) to device " + address);
             mDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
-            bluetoothGatt.put(address, mDevice.connectGatt(this, true, new CustomBluetoothGattCallback(address)));
+            bluetoothGattMap.put(address, mDevice.connectGatt(this, true, new CustomBluetoothGattCallback(address)));
         } else {
             Log.d(TAG, "connect() - discovering services for " + address);
-            bluetoothGatt.get(address).discoverServices();
+            bluetoothGattMap.get(address).discoverServices();
         }
     }
 
     public synchronized void disconnect(final String address) {
-        if (bluetoothGatt.containsKey(address)) {
+        if (bluetoothGattMap.containsKey(address)) {
             Log.d(TAG, "disconnect() - to device " + address);
             if (!Devices.isEnabled(this, address)) {
                 Log.d(TAG, "disconnect() - no background linked for " + address);
-                if (bluetoothGatt.get(address) != null) {
-                    bluetoothGatt.get(address).disconnect();
+                if (bluetoothGattMap.get(address) != null) {
+                    bluetoothGattMap.get(address).disconnect();
                 }
-                bluetoothGatt.remove(address);
+                bluetoothGattMap.remove(address);
             }
         }
     }
 
     public synchronized void remove(final String address) {
-        if (bluetoothGatt.containsKey(address)) {
+        if (bluetoothGattMap.containsKey(address)) {
             Log.d(TAG, "remove() - to device " + address);
-            if (bluetoothGatt.get(address) != null) {
-                bluetoothGatt.get(address).disconnect();
+            if (bluetoothGattMap.get(address) != null) {
+                bluetoothGattMap.get(address).disconnect();
             }
-            bluetoothGatt.remove(address);
+            bluetoothGattMap.remove(address);
         }
     }
 }

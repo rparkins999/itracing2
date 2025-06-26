@@ -13,18 +13,17 @@ import net.sylvek.itracing2.BluetoothLEService;
 public class LinkBackground extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
-        final int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1);
-        Log.d(BluetoothLEService.TAG, "bluetooth change state: " + bluetoothState);
+    public void onReceive(Context context, Intent intent) {
+        final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1);
+        Log.d(BluetoothLEService.TAG, "bluetooth change state: " + state);
         final Intent bleService = new Intent(context, BluetoothLEService.class);
 
-        if (bluetoothState == BluetoothAdapter.STATE_ON) {
+        if (state == BluetoothAdapter.STATE_TURNING_OFF) {
+            bleService.putExtra("connect",false);
             context.startService(bleService);
-        }
-
-        if (bluetoothState == BluetoothAdapter.STATE_OFF) {
-            context.stopService(bleService);
+        } else if (state == BluetoothAdapter.STATE_ON) {
+            bleService.putExtra("connect",true);
+            context.startService(bleService);
         }
     }
 }

@@ -127,6 +127,7 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
 
         showDevices();
 
+        // startService OK if service alrady running
         if (!isMyServiceRunning(BluetoothLEService.class)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(new Intent(this, BluetoothLEService.class));
@@ -141,6 +142,9 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
         getFragmentManager().beginTransaction().replace(R.id.container, devicesFragment).commit();
     }
 
+    /* Code removed
+     * If someone else has disabled Bluetooth,
+     * we shouldn't mess with it.
     @Override
     protected void onStart()
     {
@@ -164,6 +168,7 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
             }
         }
     }
+    */
 
     @Override
     public void onScanStart()
@@ -342,13 +347,13 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
             this.onFeedback();
             return true;
         }
-        /*if (item.getItemId() == R.id.action_donate) {
-            this.onDonate();
-            return true;
-        }*/
         if (item.getItemId() == R.id.action_preferences) {
             startActivity(new Intent(this, PreferencesActivity.class));
             return true;
+        }
+        if (item.getItemId() == R.id.action_quit) {
+            stopService(new Intent(this, BluetoothLEService.class));
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
