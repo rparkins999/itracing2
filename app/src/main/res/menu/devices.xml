@@ -3,13 +3,17 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="net.sylvek.itracing2.devices.DevicesActivity">
     <item
-            android:title="@string/preferences"
-            android:icon="@android:drawable/ic_menu_preferences"
-            android:id="@+id/action_preferences" tools:ignore="AppCompatResource"/>
+        android:title="@string/preferences"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:id="@+id/action_preferences" tools:ignore="AppCompatResource"/>
     <item
-            android:title="@string/feedback"
-            android:icon="@android:drawable/ic_menu_help"
-            android:id="@+id/action_feedback" tools:ignore="AppCompatResource"/>
+        android:title="@string/feedback"
+        android:icon="@android:drawable/ic_menu_help"
+        android:id="@+id/action_feedback" tools:ignore="AppCompatResource"/>
+    <item
+        android:title="@string/version"
+        android:icon="@android:drawable/ic_menu_help"
+        android:id="@+id/action_version" tools:ignore="AppCompatResource"/>
     <item
             android:title="@string/quit"
             android:icon="@android:drawable/ic_menu_close_clear_cancel"

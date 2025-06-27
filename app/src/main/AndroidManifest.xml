@@ -39,6 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".VersionActivity"/>
         <activity android:name=".dashboard.DashboardActivity"
                   android:parentActivityName=".devices.DevicesActivity"/>
         <activity android:name=".preferences.PreferencesActivity" android:label="@string/preferences"

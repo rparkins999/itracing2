@@ -34,6 +34,7 @@ import net.sylvek.itracing2.CommonActivity;
 import net.sylvek.itracing2.ConfirmAlertDialogFragment;
 import net.sylvek.itracing2.Preferences;
 import net.sylvek.itracing2.R;
+import net.sylvek.itracing2.VersionActivity;
 import net.sylvek.itracing2.dashboard.DashboardActivity;
 import net.sylvek.itracing2.database.Devices;
 import net.sylvek.itracing2.preferences.PreferencesActivity;
@@ -235,6 +236,12 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
         startActivity(browserIntent);
     }
 
+    private void onVersion()
+    {
+        final Intent intent = new Intent(this, VersionActivity.class);
+        startActivity(intent);
+    }
+
     private void onDonate()
     {
         Preferences.setDonated(this, true);
@@ -345,6 +352,10 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
     {
         if (item.getItemId() == R.id.action_feedback) {
             this.onFeedback();
+            return true;
+        }
+        if (item.getItemId() == R.id.action_version) {
+            this.onVersion();
             return true;
         }
         if (item.getItemId() == R.id.action_preferences) {

@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+def gitdata = new ByteArrayOutputStream()
+// change this line to /* if not using git
+exec {
+    commandLine "git", "--no-pager", "show", "-s", "--format=from commit %H of %as"
+    standardOutput = gitdata;
+}
+//*/
+
 android {
     compileSdkVersion 29
 
@@ -31,6 +39,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
+            delete("build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml")
+            resValue("string", 'build_time', "${(new Date()).toString()}")
+            resValue("string", 'build_git', "${gitdata.toString()}")
             jniDebuggable true
             renderscriptDebuggable true
         }
@@ -38,6 +49,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            delete("build/intermediates/incremental/mergeReleaseResources/merger.xml")
+            resValue("string", 'build_time', "${(new Date()).toString()}")
+            resValue("string", 'build_git', "${gitdata.toString()}")
         }
     }
 }

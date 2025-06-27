@@ -27,6 +27,7 @@
     <string name="quit">Exit itracing2</string>
     <string name="donate">donate (PayPal)</string>
     <string name="feedback">feedback</string>
+    <string name="version">version info</string>
     <string name="donate_summary">to support my work :)</string>
     <string name="feedback_summary">feel free to improve this product</string>
     <string name="display_last_position">display the last recorded position</string>
