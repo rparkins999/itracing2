@@ -231,7 +231,7 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
 
     private void onFeedback()
     {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/sylvek/itracing2/issues"));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/rparkins999/itracing2/issues"));
         startActivity(browserIntent);
     }
 

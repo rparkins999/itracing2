@@ -71,5 +71,9 @@ public class PreferencesActivity extends CommonActivity implements PreferencesFr
     {
         this.service.setForegroundEnabled(checked);
     }
+    public void onRebootRestartChecked(boolean checked)
+    {
+        this.service.setForegroundEnabled(checked);
+    }
 
 }

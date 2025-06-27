@@ -7,6 +7,7 @@ Changes from sylvek/itracing2 are:
 * Updated to build and work with latest Android
 * Dismissing ringtone notification does the same thing as touching it (usually stop ringtone)
 * Added action on phone screen turned on (enables quick stop ringtone by pressing power-on button)
+* Added preference option to restart itracing2 when phone is rebooted
 
 ## History 📓
 itracing2 is a free and open source application allowing to manage "iTag" devices.
@@ -33,11 +34,7 @@ iTracing2 implementes ["Proximity Profile"](https://en.wikipedia.org/wiki/List_o
 
 [Read me on WIKI](https://github.com/sylvek/itracing2/wiki)
 
-This application runs in background, so you do not have to launch it after each boot up.
-
-For each iTag which has been attached to itracing2, you can configure itracing2 to take any of the following actions for any of the following events:
-
-Actions:-
+###Actions
 
 * Capture your current position _(you need a Map application like OSMAnd or RMap or Organic Maps to display it)_
 * Start playing a ringtone on your phone
@@ -52,7 +49,7 @@ Actions:-
 * Call a custom URL (`GET` action)
 * Call someone
 
-Events:-
+###Events
 
 * Single click on the iTag's button
 * Double click on the iTag's button

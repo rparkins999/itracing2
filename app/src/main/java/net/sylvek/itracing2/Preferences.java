@@ -26,6 +26,7 @@ public class Preferences {
     public static final String ACTION_ON_POWER_OFF = "action_on_power_off";
     public static final String RINGTONE = "ring_tone";
     public static final String FOREGROUND = "action_foreground";
+    public static final String RESTART_ON_REBOOT = "action_reboot_restart";
     private static final String DOUBLE_BUTTON_DELAY = "double_button_delay";
     private static final String CUSTOM_ACTION = "custom_action";
     private static final String DONATED = "donated";
@@ -93,6 +94,10 @@ public class Preferences {
     public static boolean isForegroundEnabled(Context context)
     {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(FOREGROUND, true);
+    }
+
+    public static boolean isRebootRestart(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(RESTART_ON_REBOOT, false);
     }
 
     public static boolean isDonated(Context context)

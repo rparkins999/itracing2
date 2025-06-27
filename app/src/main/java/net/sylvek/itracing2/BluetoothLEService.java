@@ -289,10 +289,12 @@ public class BluetoothLEService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand()");
         if (intent.hasExtra("connect")) {
             // from LinkBackground
             if (!intent.getBooleanExtra("connect", true)) {
                 this.disconnect();
+                Log.d(TAG, "disconnect() returned");
                 return START_STICKY;
             }
         } else {
@@ -301,6 +303,7 @@ public class BluetoothLEService extends Service {
             this.setForegroundEnabled(Preferences.isForegroundEnabled(this));
         }
         this.connect();
+        Log.d(TAG, "connect() returned");
 
         if (intent.getData() != null) {
             final String address = intent.getData().getHost();
@@ -409,12 +412,14 @@ public class BluetoothLEService extends Service {
         }
 
         disconnect();
+        Log.d(TAG, "disconnect() returned");
 
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
     }
 
     public synchronized void disconnect() {
+        Log.d(TAG, "disconnect() entered");
         final Cursor cursor = Devices.findDevices(this);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -459,6 +464,7 @@ public class BluetoothLEService extends Service {
     }
 
     public synchronized void connect() {
+        Log.d(TAG, "connect() entered");
         final Cursor cursor = Devices.findDevices(this);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
