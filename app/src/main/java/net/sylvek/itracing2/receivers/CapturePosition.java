@@ -64,7 +64,7 @@ public class CapturePosition extends BroadcastReceiver {
                      * a Google server which has privacy and security issues.
                      * Also the Google server relies on Google's list of locations
                      * of cell towers and Wi-Fi hotspots, which are privately
-                     *  owned and can be moved, so Google's list can be out of date.
+                     * owned and can be moved, so Google's list can be out of date.
                      */
                     Log.d(TAG, "requestLocationUpdates from gps");
                     lm.requestLocationUpdates(
