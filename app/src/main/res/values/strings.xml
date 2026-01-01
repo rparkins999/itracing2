@@ -7,7 +7,7 @@
     <string name="action_connect">connect</string>
     <string name="start_immediate_alert">start ringing the keyring</string>
     <string name="stop_immediate_alert">stop ringing the keyring</string>
-    <string name="link_background">allways-on</string>
+    <string name="link_background">always-on</string>
     <string name="stop_ring">stop ring</string>
     <string name="stop_vibrate">stop vibration</string>
     <string name="simple_button_action">simple click options</string>
@@ -78,6 +78,7 @@
         <item>start vibrate the phone</item>
         <item>stop vibrate the phone</item>
         <item>capture my position</item>
+        <item>take photograph</item>
         <item>toggle AudioManager Play/Pause</item>
         <item>call a url or broadcast intent action</item>
     </string-array>
@@ -89,6 +90,7 @@
         <item>START_VIBRATE_PHONE</item>
         <item>STOP_VIBRATE_PHONE</item>
         <item>CAPTURE_POSITION</item>
+        <item>TAKE_PHOTOGRAPH</item>
         <item>TOGGLE_PLAY_PAUSE</item>
         <item>CUSTOM_ACTION</item>
     </string-array>

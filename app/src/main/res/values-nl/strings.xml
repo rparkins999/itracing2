@@ -73,6 +73,7 @@
         <item>Laat de telefoon trillen</item>
         <item>Stop het trillen van de telefoon</item>
         <item>Sla mijn positie op</item>
+        <item>take photograph</item>
         <item>toggle AudioManager Play/Pause</item>
         <item>Open een URL of start een actie</item>
     </string-array>
@@ -84,6 +85,7 @@
         <item>START_VIBRATE_PHONE</item>
         <item>STOP_VIBRATE_PHONE</item>
         <item>CAPTURE_POSITION</item>
+        <item>TAKE_PHOTOGRAPH</item>
         <item>TOGGLE_PLAY_PAUSE</item>
         <item>CUSTOM_ACTION</item>
     </string-array>

@@ -12,6 +12,9 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -40,12 +43,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".VersionActivity"/>
+        <activity android:name=".PhotoActivity"/>
         <activity android:name=".dashboard.DashboardActivity"
                   android:parentActivityName=".devices.DevicesActivity"/>
         <activity android:name=".preferences.PreferencesActivity" android:label="@string/preferences"
                   android:parentActivityName=".devices.DevicesActivity"/>
         <service android:name=".BluetoothLEService"
-                 android:foregroundServiceType="location"/>
+            android:foregroundServiceType="location"/>
         <receiver android:name=".receivers.RebootCatcher"
             android:exported="true">
             <intent-filter>

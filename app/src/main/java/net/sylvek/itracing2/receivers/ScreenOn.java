@@ -1,3 +1,8 @@
+/*
+ * Copyright © 2025. Richard P. Parkins, M. A.
+ * Released under GPL V3 or later
+ */
+
 package net.sylvek.itracing2.receivers;
 
 import static net.sylvek.itracing2.BluetoothLEService.TAG;

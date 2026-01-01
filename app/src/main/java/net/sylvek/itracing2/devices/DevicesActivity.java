@@ -128,9 +128,14 @@ public class DevicesActivity extends CommonActivity implements DevicesFragment.O
 
         showDevices();
 
-        // startService OK if service alrady running
+        // startService is not supported before version O (26)
+        // and is required from version Q (29)
+        // between those versions it's a user preference
         if (!isMyServiceRunning(BluetoothLEService.class)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (   (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                && (   (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                    || Preferences.isForegroundEnabled(this)))
+            {
                 startForegroundService(new Intent(this, BluetoothLEService.class));
             } else {
                 startService(new Intent(this, BluetoothLEService.class));

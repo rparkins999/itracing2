@@ -72,6 +72,7 @@
         <item>telefonu titret</item>
         <item>titreşimi durdur</item>
         <item>konumumu kaydet</item>
+        <item>take photograph</item>
         <item>toggle AudioManager Play/Pause</item>
         <item>bir url yada aksiyon metni çağır</item>
     </string-array>
@@ -83,6 +84,7 @@
         <item>START_VIBRATE_PHONE</item>
         <item>STOP_VIBRATE_PHONE</item>
         <item>CAPTURE_POSITION</item>
+        <item>TAKE_PHOTOGRAPH</item>
         <item>TOGGLE_PLAY_PAUSE</item>
         <item>CUSTOM_ACTION</item>
     </string-array>

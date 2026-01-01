@@ -1,5 +1,7 @@
 package net.sylvek.itracing2;
 
+import static android.content.pm.PackageManager.FEATURE_CAMERA_ANY;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,6 +10,7 @@ import android.app.Service;
 import android.bluetooth.*;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Binder;
 import android.os.Build;
@@ -25,6 +28,7 @@ import net.sylvek.itracing2.receivers.CustomAction;
 import net.sylvek.itracing2.receivers.ImmediateAlert;
 import net.sylvek.itracing2.receivers.LinkBackground;
 import net.sylvek.itracing2.receivers.ScreenOn;
+import net.sylvek.itracing2.receivers.TakePhoto;
 import net.sylvek.itracing2.receivers.ToggleRingPhone;
 import net.sylvek.itracing2.receivers.ToggleVibratePhone;
 import net.sylvek.itracing2.receivers.TogglePlayPause;
@@ -300,7 +304,7 @@ public class BluetoothLEService extends Service {
         } else {
             // from DevicesActivity
             this.registerReceivers();
-            this.setForegroundEnabled(Preferences.isForegroundEnabled(this));
+            this.setForeground();
         }
         this.connect();
         Log.d(TAG, "connect() returned");
@@ -361,14 +365,30 @@ public class BluetoothLEService extends Service {
         registerReceiver(new TogglePlayPause(), f7);
         Log.d(TAG, "TogglePlayPause() - registered with: " + f7);
 
-        IntentFilter f8 = new IntentFilter();
-        f8.addAction(Intent.ACTION_SCREEN_ON);
-        registerReceiver(new ScreenOn(), f8);
-        Log.d(TAG, "ScreenOn() - registered with: " + f8);
+        PackageManager pm = getApplicationContext().getPackageManager();
+        /* FIXME this should be tested when displaying the action list,
+         * but this would involve rewriting the whole preference screen
+         * to use code rather than a resource·
+         */
+        if (pm.hasSystemFeature(FEATURE_CAMERA_ANY)) {
+            IntentFilter f8 = new IntentFilter();
+            f8.addAction("net.sylvek.itracing2.action.TAKE_PHOTOGRAPH");
+            f8.addCategory("android.intent.category.DEFAULT");
+            registerReceiver(new TakePhoto(), f8);
+            Log.d(TAG, "TakePhoto() - registered with: " + f8);
+        }
+
+        IntentFilter f9 = new IntentFilter();
+        f9.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(new ScreenOn(), f9);
+        Log.d(TAG, "ScreenOn() - registered with: " + f9);
     }
 
-    public void setForegroundEnabled(boolean enabled) {
-        if (enabled) {
+    public void setForeground() {
+        if (   (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                && (   (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                || Preferences.isForegroundEnabled(this)))
+        {
             final Notification.Builder notification = new Notification.Builder(this)
                     .setSmallIcon(R.drawable.ic_launcher)
                     .setContentTitle(getText(R.string.app_name))
@@ -376,13 +396,9 @@ public class BluetoothLEService extends Service {
                     .setContentText(getText(R.string.foreground_started))
                     .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, DevicesActivity.class), 0))
                     .setShowWhen(false);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                notification.setChannelId(getNotificationChannel(notificationManager));
-            }
+            final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notification.setChannelId(getNotificationChannel(notificationManager));
             startForeground(FOREGROUND_ID, notification.build());
-        } else {
-            stopForeground(true);
         }
     }
 

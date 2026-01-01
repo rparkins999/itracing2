@@ -72,6 +72,7 @@
         <item>start vibrate the phone</item>
         <item>stop vibrate the phone</item>
         <item>capture my position</item>
+        <item>take photograph</item>
         <item>toggle AudioManager Play/Pause</item>
         <item>call a url or broadcast intent action</item>
     </string-array>
@@ -83,8 +84,9 @@
         <item>START_VIBRATE_PHONE</item>
         <item>STOP_VIBRATE_PHONE</item>
         <item>CAPTURE_POSITION</item>
-         <item>TOGGLE_PLAY_PAUSE</item>
-       <item>CUSTOM_ACTION</item>
+        <item>TAKE_PHOTOGRAPH</item>
+        <item>TOGGLE_PLAY_PAUSE</item>
+        <item>CUSTOM_ACTION</item>
     </string-array>
     <string-array name="empty_array"/>
 </resources>
