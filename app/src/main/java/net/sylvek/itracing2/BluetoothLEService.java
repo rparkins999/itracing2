@@ -34,6 +34,7 @@ import net.sylvek.itracing2.receivers.ToggleVibratePhone;
 import net.sylvek.itracing2.receivers.TogglePlayPause;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -458,7 +459,9 @@ public class BluetoothLEService extends Service {
             somethingGoesWrong();
             return;
         }
-        final BluetoothGattCharacteristic characteristic = linkLossService.getCharacteristics().get(0);
+        List<BluetoothGattCharacteristic> btcs = linkLossService.getCharacteristics();
+        final BluetoothGattCharacteristic characteristic = btcs.get(0);
+        List<BluetoothGattDescriptor> btgs = characteristic.getDescriptors();
         characteristic.setValue(alertType, BluetoothGattCharacteristic.FORMAT_UINT8, 0);
         bluetoothGattMap.get(address).writeCharacteristic(characteristic);
     }
